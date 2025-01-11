@@ -30,7 +30,10 @@ const formatError = (error: unknown) => {
       if (Array.isArray(apiError.detail)) {
         // Handle validation errors
         return apiError.detail
-          .map((err: ValidationError) => `${err.loc[1]}: ${err.msg}`)
+          .map(
+            (err: ValidationError) =>
+              `${err.loc[1].replace("_", " ")}: ${err.msg}`
+          )
           .join("\n");
       }
 
