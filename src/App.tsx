@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { fetchIncomeStatements, IncomeStatement, FilterParams } from "./utils/api";
-import { AxiosError } from "axios";
+import { fetchIncomeStatements, FilterParams } from "./utils/api";
 import SortIcon from "./components/SortIcon";
-import { SortableColumn, SortOrder } from "./types";
+import {
+  SortableColumn,
+  SortOrder,
+  IncomeStatement,
+  formatError,
+} from "./types";
 
 export default function App() {
   const [statements, setStatements] = useState<IncomeStatement[]>([]);
@@ -22,10 +26,10 @@ export default function App() {
           order: sortOrder,
         });
         setStatements(data);
+        setError(null);
       } catch (err: unknown) {
-        const error = err as Error | AxiosError;
-        setError(`Failed to fetch financial statements: ${error.message}`);
-        console.error(error);
+        setError(formatError(err));
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -131,7 +135,9 @@ export default function App() {
 
       {/* Table */}
       {error ? (
-        <div className="text-center text-red-500 p-4">{error}</div>
+        <div className="text-center text-red-500 p-4 whitespace-pre-line">
+          {error}
+        </div>
       ) : (
         <div className="relative">
           {loading && (
@@ -146,17 +152,32 @@ export default function App() {
                   <th
                     onClick={() => handleSort("date")}
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Date <SortIcon column="date" currentSort={sortBy} order={sortOrder} />
+                    Date{" "}
+                    <SortIcon
+                      column="date"
+                      currentSort={sortBy}
+                      order={sortOrder}
+                    />
                   </th>
                   <th
                     onClick={() => handleSort("revenue")}
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Revenue <SortIcon column="revenue" currentSort={sortBy} order={sortOrder} />
+                    Revenue{" "}
+                    <SortIcon
+                      column="revenue"
+                      currentSort={sortBy}
+                      order={sortOrder}
+                    />
                   </th>
                   <th
                     onClick={() => handleSort("net_income")}
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Net Income <SortIcon column="net_income" currentSort={sortBy} order={sortOrder} />
+                    Net Income{" "}
+                    <SortIcon
+                      column="net_income"
+                      currentSort={sortBy}
+                      order={sortOrder}
+                    />
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Gross Profit
