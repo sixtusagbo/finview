@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
-import {
-  fetchIncomeStatements,
-  IncomeStatement,
-  FilterParams,
-} from "./utils/api";
+import { fetchIncomeStatements, IncomeStatement, FilterParams } from "./utils/api";
 import { AxiosError } from "axios";
+import SortIcon from "./components/SortIcon";
+import { SortableColumn, SortOrder } from "./types";
 
 export default function App() {
   const [statements, setStatements] = useState<IncomeStatement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterParams>({});
+  const [sortBy, setSortBy] = useState<SortableColumn>("date");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
-        const data = await fetchIncomeStatements(filters);
+        const data = await fetchIncomeStatements({
+          ...filters,
+          sort_by: sortBy,
+          order: sortOrder,
+        });
         setStatements(data);
       } catch (err: unknown) {
         const error = err as Error | AxiosError;
@@ -27,7 +31,7 @@ export default function App() {
       }
     };
     loadData();
-  }, [filters]);
+  }, [filters, sortBy, sortOrder]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,6 +40,15 @@ export default function App() {
       ...prev,
       [name]: value ? Number(value) : undefined,
     }));
+  };
+
+  const handleSort = (column: SortableColumn) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortOrder("desc");
+    }
   };
 
   return (
@@ -130,14 +143,20 @@ export default function App() {
             <table className="min-w-full bg-white shadow-md rounded-lg">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
+                  <th
+                    onClick={() => handleSort("date")}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    Date <SortIcon column="date" currentSort={sortBy} order={sortOrder} />
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Revenue
+                  <th
+                    onClick={() => handleSort("revenue")}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    Revenue <SortIcon column="revenue" currentSort={sortBy} order={sortOrder} />
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Net Income
+                  <th
+                    onClick={() => handleSort("net_income")}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                    Net Income <SortIcon column="net_income" currentSort={sortBy} order={sortOrder} />
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Gross Profit

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL, ENDPOINTS } from "./constants";
+import { SortableColumn, SortOrder } from "../types";
 
 export interface IncomeStatement {
   date: string;
@@ -17,6 +18,8 @@ export interface FilterParams {
   max_revenue?: number;
   min_net_income?: number;
   max_net_income?: number;
+  sort_by?: SortableColumn;
+  order?: SortOrder;
 }
 
 export const fetchIncomeStatements = async (
@@ -37,6 +40,12 @@ export const fetchIncomeStatements = async (
         params.append(key, value.toString());
       }
     });
+
+    // Add sorting parameters
+    if (filters.sort_by) {
+      params.append("sort_by", filters.sort_by);
+      params.append("order", filters.order || "desc");
+    }
   }
   const response = await axios.get(
     `${API_BASE_URL}${ENDPOINTS.INCOME_STATEMENT}`,
