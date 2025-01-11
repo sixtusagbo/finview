@@ -86,7 +86,9 @@ export default function App() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium">Revenue Range ($)</h3>
+            <h3 className="text-sm font-medium">
+              Revenue Range (in Billion USD)
+            </h3>
             <div className="flex gap-2">
               <input
                 type="number"
@@ -95,6 +97,7 @@ export default function App() {
                 className="border rounded px-2 py-1 w-full"
                 onChange={handleFilterChange}
                 min="0"
+                step="0.1"
               />
               <input
                 type="number"
@@ -103,12 +106,15 @@ export default function App() {
                 className="border rounded px-2 py-1 w-full"
                 onChange={handleFilterChange}
                 min="0"
+                step="0.1"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium">Net Income Range ($)</h3>
+            <h3 className="text-sm font-medium">
+              Net Income Range (in Billion USD)
+            </h3>
             <div className="flex gap-2">
               <input
                 type="number"
@@ -116,6 +122,7 @@ export default function App() {
                 placeholder="Min"
                 className="border rounded px-2 py-1 w-full"
                 onChange={handleFilterChange}
+                step="0.1"
               />
               <input
                 type="number"
@@ -123,6 +130,7 @@ export default function App() {
                 placeholder="Max"
                 className="border rounded px-2 py-1 w-full"
                 onChange={handleFilterChange}
+                step="0.1"
               />
             </div>
           </div>

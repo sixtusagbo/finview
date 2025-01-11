@@ -20,7 +20,30 @@ export const fetchIncomeStatements = async (
   const params = new URLSearchParams();
   if (filters) {
     console.log("Filters:", filters);
-    Object.entries(filters).forEach(([key, value]) => {
+
+    // Convert billion values to actual numbers
+    const BILLION = 1_000_000_000;
+    const convertedFilters = {
+      ...filters,
+      min_revenue:
+        filters.min_revenue !== undefined
+          ? filters.min_revenue * BILLION
+          : undefined,
+      max_revenue:
+        filters.max_revenue !== undefined
+          ? filters.max_revenue * BILLION
+          : undefined,
+      min_net_income:
+        filters.min_net_income !== undefined
+          ? filters.min_net_income * BILLION
+          : undefined,
+      max_net_income:
+        filters.max_net_income !== undefined
+          ? filters.max_net_income * BILLION
+          : undefined,
+    };
+
+    Object.entries(convertedFilters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         params.append(key, value.toString());
       }
