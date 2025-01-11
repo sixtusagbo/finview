@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchIncomeStatements, FilterParams } from "./utils/api";
 import SortIcon from "./components/SortIcon";
-import {
-  SortableColumn,
-  SortOrder,
-  IncomeStatement,
-  formatError,
-} from "./types";
+import { SortableColumn, SortOrder, IncomeStatement } from "./types";
+import { formatError, formatMoney } from "./utils";
 
 export default function App() {
   const [statements, setStatements] = useState<IncomeStatement[]>([]);
@@ -200,19 +196,19 @@ export default function App() {
                       {statement.date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${statement.revenue.toLocaleString()}
+                      ${formatMoney(statement.revenue)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${statement.net_income.toLocaleString()}
+                      ${formatMoney(statement.net_income)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${statement.gross_profit.toLocaleString()}
+                      ${formatMoney(statement.gross_profit)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       ${statement.eps.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${statement.operating_income.toLocaleString()}
+                      ${formatMoney(statement.operating_income)}
                     </td>
                   </tr>
                 ))}
