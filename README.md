@@ -6,6 +6,7 @@ I built this project with React, TypeScript, Vite and TailwindCSS. The frontend 
 
 ## Table of Contents
 
+- [Deployment](#deployment)
 - [Features](#features)
   - [Interactive Data Table](#interactive-data-table)
   - [Advanced Filtering](#advanced-filtering)
@@ -13,6 +14,12 @@ I built this project with React, TypeScript, Vite and TailwindCSS. The frontend 
   - [Modern UI/UX](#modern-uiux)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
+
+## Deployment
+
+This web app is deployed on Vercel.
+
+- Try it out: https://finview-omega.vercel.app
 
 ## Features
 
