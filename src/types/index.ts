@@ -24,14 +24,20 @@ export interface APIError {
 
 const formatError = (error: unknown) => {
   if (error instanceof AxiosError) {
-    const apiError = error.response?.data as APIError;
-    if (Array.isArray(apiError.detail)) {
-      // Handle validation errors
-      return apiError.detail
-        .map((err: ValidationError) => `${err.loc.join(".")}: ${err.msg}`)
-        .join("\n");
+    if (error.response) {
+      const apiError = error.response?.data as APIError;
+
+      if (Array.isArray(apiError.detail)) {
+        // Handle validation errors
+        return apiError.detail
+          .map((err: ValidationError) => `${err.loc[1]}: ${err.msg}`)
+          .join("\n");
+      }
+
+      return apiError.detail || error.message;
     }
-    return apiError.detail || error.message;
+
+    return error.message;
   }
   return (error as Error).message;
 };

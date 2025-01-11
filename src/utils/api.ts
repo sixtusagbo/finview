@@ -22,13 +22,6 @@ export const fetchIncomeStatements = async (
     console.log("Filters:", filters);
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        // // Validate year parameters
-        // if (
-        //   (key === "start_year" || key === "end_year") &&
-        //   value.toString().length < 4
-        // ) {
-        //   return;
-        // }
         params.append(key, value.toString());
       }
     });
