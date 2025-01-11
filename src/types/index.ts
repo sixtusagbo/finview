@@ -16,6 +16,16 @@ export interface ValidationError {
   type: string;
 }
 
+export interface APIErrorDetails {
+  type: string;
+  message: string;
+  details: string;
+}
+
+export interface NestedAPIError {
+  error: APIErrorDetails;
+}
+
 export interface APIError {
-  detail?: string | ValidationError[];
+  detail?: string | ValidationError[] | NestedAPIError;
 }

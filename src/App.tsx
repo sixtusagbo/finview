@@ -138,93 +138,92 @@ export default function App() {
       </div>
 
       {/* Table */}
-      {error ? (
+      {error && (
         <div className="text-center text-red-500 p-4 whitespace-pre-line">
           {error}
         </div>
-      ) : (
-        <div className="relative">
-          {loading && (
-            <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10">
-              <div className="text-gray-600">Loading...</div>
-            </div>
-          )}
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    onClick={() => handleSort("date")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Date{" "}
-                    <SortIcon
-                      column="date"
-                      currentSort={sortBy}
-                      order={sortOrder}
-                    />
-                  </th>
-                  <th
-                    onClick={() => handleSort("revenue")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Revenue{" "}
-                    <SortIcon
-                      column="revenue"
-                      currentSort={sortBy}
-                      order={sortOrder}
-                    />
-                  </th>
-                  <th
-                    onClick={() => handleSort("net_income")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-                    Net Income{" "}
-                    <SortIcon
-                      column="net_income"
-                      currentSort={sortBy}
-                      order={sortOrder}
-                    />
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gross Profit
-                  </th>
-                  <th
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    title="Earnings Per Share">
-                    EPS
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Operating Income
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-gray-200">
-                {statements.map((statement) => (
-                  <tr key={statement.date} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {statement.date}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${formatMoney(statement.revenue)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${formatMoney(statement.net_income)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${formatMoney(statement.gross_profit)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${statement.eps.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${formatMoney(statement.operating_income)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
       )}
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10">
+            <div className="text-gray-600">Loading...</div>
+          </div>
+        )}
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow-md rounded-lg">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  onClick={() => handleSort("date")}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Date{" "}
+                  <SortIcon
+                    column="date"
+                    currentSort={sortBy}
+                    order={sortOrder}
+                  />
+                </th>
+                <th
+                  onClick={() => handleSort("revenue")}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Revenue{" "}
+                  <SortIcon
+                    column="revenue"
+                    currentSort={sortBy}
+                    order={sortOrder}
+                  />
+                </th>
+                <th
+                  onClick={() => handleSort("net_income")}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Net Income{" "}
+                  <SortIcon
+                    column="net_income"
+                    currentSort={sortBy}
+                    order={sortOrder}
+                  />
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Gross Profit
+                </th>
+                <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  title="Earnings Per Share">
+                  EPS
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Operating Income
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-200">
+              {statements.map((statement) => (
+                <tr key={statement.date} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {statement.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${formatMoney(statement.revenue)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${formatMoney(statement.net_income)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${formatMoney(statement.gross_profit)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${statement.eps.toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${formatMoney(statement.operating_income)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,23 +1,37 @@
 import { AxiosError } from "axios";
-import { APIError, ValidationError } from "../types";
+import { APIError, ValidationError, NestedAPIError } from "../types";
 import numeral from "numeral";
+
+const isValidationErrorArray = (
+  detail: APIError["detail"]
+): detail is ValidationError[] => {
+  return Array.isArray(detail);
+};
+
+const isNestedError = (
+  detail: APIError["detail"]
+): detail is NestedAPIError => {
+  return typeof detail === "object" && detail !== null && "error" in detail;
+};
 
 export const formatError = (error: unknown) => {
   if (error instanceof AxiosError) {
     if (error.response) {
       const apiError = error.response?.data as APIError;
+      const { detail } = apiError;
 
-      if (Array.isArray(apiError.detail)) {
-        // Handle validation errors
-        return apiError.detail
-          .map(
-            (err: ValidationError) =>
-              `${err.loc[1].replace("_", " ")}: ${err.msg}`
-          )
+      if (isValidationErrorArray(detail)) {
+        return detail
+          .map((err) => `${err.loc[1].replace("_", " ")}: ${err.msg}`)
           .join("\n");
       }
 
-      return apiError.detail || error.message;
+      if (isNestedError(detail)) {
+        const { error: nestedError } = detail as NestedAPIError;
+        return nestedError.message || nestedError.details || error.message;
+      }
+
+      return detail || error.message;
     }
 
     return error.message;
